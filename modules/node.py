@@ -9,6 +9,19 @@ class Node():
         self.right = None
         self.left = None
         self.height = 0
+    def max_children_height(self):
+        """ Return max height of subtrees """
+        if self.left and self.right:
+            return max(self.left.height, self.right.height)
+        elif self.left and not self.right:
+            return self.left.height
+        elif not self.left and  self.right:
+            return self.right.height
+        else:
+            return -1
+    def balance_factor(self):
+        """ Balance Factor - calculate the height difference between the right and left subtrees """
+        return (self.left.height if self.left else -1) - (self.right.height if self.right else -1)
     def __str__(self):
         """ Output information """
         return F"Node({self.value}, Height: {self.height}"
