@@ -172,3 +172,16 @@ class AVLTree():
                 C.parent = F
         self._recompute_heights(A)
         self._recompute_heights(B)
+    def search(self, key, return_node=False):
+        """ Search key into the tree. """
+        return self._search_node(self.root, key, True) if return_node else self._search_node(self.root, key)
+    def _search_node(self, current_node, key, return_node=False):
+        """ Help search() to find node """
+        if current_node is None:
+            return None if return_node else False
+        elif current_node.value == key:
+            return current_node if return_node else True
+        elif current_node.value > key:
+            return self._search_node(current_node.left, key)
+        else:
+            return self._search_node(current_node.right, key)
