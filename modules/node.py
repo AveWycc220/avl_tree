@@ -24,5 +24,7 @@ class Node():
         return (self.left.height if self.left else -1) - (self.right.height if self.right else -1)
     def __str__(self):
         """ Output information """
-        return F"Node({self.value}, Height: {self.height}"
-        
+        return F"Node(Value: {self.value}, Height: {self.height},\
+        Right: {self.right.value if self.right else None},\
+        Parent: {self.parent.value if self.parent else None},\
+        Left: {self.left.value if self.left else None})"
