@@ -151,7 +151,7 @@ class AVLTree():
                 F.right = B
             else:
                 F.left = B
-                B.parent = F
+            B.parent = F
         self._recompute_heights(A)
         self._recompute_heights(B.parent)
 
@@ -178,7 +178,7 @@ class AVLTree():
                 F.right = C
             else:
                 F.left = C
-                C.parent = F
+            C.parent = F
         self._recompute_heights(A)
         self._recompute_heights(B)
 
