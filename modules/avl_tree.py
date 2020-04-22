@@ -1,22 +1,31 @@
 """ Module for elements in tree """
 from modules.node import Node
 
+
 class AVLTree():
     """ Class of avl_tree. """
     def __init__(self):
         """ Initialization """
-        self.root = None
-        self.node_count = 0
-    def set_root(self, val):
+        self._root = None
+        self._node_count = 0
+
+    @property
+    def node_count(self):
+        """ Getter for _node_count """
+        return self._node_count
+
+    def _set_root(self, val):
         """ Set the root value """
-        self.root = Node(val)
+        self._root = Node(val)
+
     def insert(self, val):
         """ Insert a val into AVLTree """
-        if self.root is None:
-            self.set_root(val)
+        if self._root is None:
+            self._set_root(val)
         else:
-            self._insert_node(self.root, val)
-        self.node_count += 1
+            self._insert_node(self._root, val)
+        self._node_count += 1
+
     def _insert_node(self, current_node, val):
         """ Help 'def insert()' to insert a value into tree. """
         node_to_rebalance = None
@@ -52,6 +61,7 @@ class AVLTree():
                         node = node.parent
         if node_to_rebalance:
             self._rebalance(node_to_rebalance)
+
     @staticmethod
     def _recompute_heights(start_node):
         """ Change height of elements after operation """
@@ -62,6 +72,7 @@ class AVLTree():
             node.height = (node.max_children_height() + 1 if (node.right or node.left) else 0)
             changed = node.height != old_height
             node = node.parent
+
     def _rebalance(self, node_to_rebalance):
         """ Method for balance tree """
         if node_to_rebalance.balance_factor() == -2:
@@ -74,20 +85,19 @@ class AVLTree():
                 self._llc(node_to_rebalance)
             else:
                 self._lrc(node_to_rebalance)
+
     def _rrc(self, A):
         """ Right-right-case (single left rotation). """
         F = A.parent
         B = A.right
-        C = B.right
-        assert (not A is None and not B is None and not C is None)
         A.right = B.left
         if A.right:
             A.right.parent = A
         B.left = A
         A.parent = B
         if F is None:
-            self.root = B
-            self.root.parent = None
+            self._root = B
+            self._root.parent = None
         else:
             if F.right == A:
                 F.right = B
@@ -96,12 +106,12 @@ class AVLTree():
             B.parent = F
         self._recompute_heights(A)
         self._recompute_heights(B.parent)
+
     def _rlc(self, A):
         """ Right-left-case (double left rotation). """
         F = A.parent
         B = A.right
         C = B.left
-        assert (not A is None and not B is None and not C is None)
         B.left = C.right
         if B.left:
             B.left.parent = B
@@ -113,8 +123,8 @@ class AVLTree():
         C.left = A
         A.parent = C
         if F is None:
-            self.root = C
-            self.root.parent = None
+            self._root = C
+            self._root.parent = None
         else:
             if F.right == A:
                 F.right = C
@@ -123,20 +133,19 @@ class AVLTree():
             C.parent = F
         self._recompute_heights(A)
         self._recompute_heights(B)
+
     def _llc(self, A):
         """ Left-left-case (single right rotation). """
         F = A.parent
         B = A.left
-        C = B.left
-        assert (not A is None and not B is None and not C is None)
         A.left = B.right
         if A.left:
             A.left.parent = A
         B.right = A
         A.parent = B
         if F is None:
-            self.root = B
-            self.root.parent = None
+            self._root = B
+            self._root.parent = None
         else:
             if F.right == A:
                 F.right = B
@@ -145,12 +154,12 @@ class AVLTree():
                 B.parent = F
         self._recompute_heights(A)
         self._recompute_heights(B.parent)
+
     def _lrc(self, A):
         """ Left-right-case (double right rotation). """
         F = A.parent
         B = A.left
         C = B.right
-        assert (not A is None and not B is None and not C is None)
         A.left = C.right
         if A.left:
             A.left.parent = A
@@ -162,8 +171,8 @@ class AVLTree():
         C.right = A
         A.parent = C
         if F is None:
-            self.root = C
-            self.root.parent = None
+            self._root = C
+            self._root.parent = None
         else:
             if F.right == A:
                 F.right = C
@@ -172,9 +181,11 @@ class AVLTree():
                 C.parent = F
         self._recompute_heights(A)
         self._recompute_heights(B)
+
     def search(self, key, return_node=False):
         """ Search key into the tree. """
-        return self._search_node(self.root, key, True) if return_node else self._search_node(self.root, key)
+        return self._search_node(self._root, key, True) if return_node else self._search_node(self._root, key)
+
     def _search_node(self, current_node, key, return_node=False):
         """ Help search() to find node """
         if current_node is None:
@@ -182,6 +193,111 @@ class AVLTree():
         elif current_node.value == key:
             return current_node if return_node else True
         elif current_node.value > key:
-            return self._search_node(current_node.left, key)
+            return self._search_node(current_node.left, key, True) if return_node else self._search_node(current_node.left, key)
         else:
-            return self._search_node(current_node.right, key)
+            return self._search_node(current_node.right, key, True) if return_node else self._search_node(current_node.right, key)
+
+    def delete(self, key): 
+        """ Delete a node with a key """
+        node = self.search(key, True)
+        if not node is None:
+            self._node_count -= 1
+            if node.height == 0:
+                self._remove_leaf(node)
+            elif node.left and node.right:
+                self._swap_and_remove(node)
+            else:
+                self._remove_branch(node)
+
+    def _remove_leaf(self, node): 
+        """ If the node is a leaf.  Remove it and return. """
+        parent = node.parent
+        if parent:
+            if parent.left == node:
+                parent.left = None
+            else:
+                parent.right = None
+            self._recompute_heights(parent)
+        else:
+            self._root = None
+        del node
+        node = parent
+        while node:
+            if not node.balance_factor() in [-1, 0, 1]:
+                self._rebalance(node)
+            node = node.parent
+
+    def _swap_and_remove(self, node):
+        """
+        If the node has two children. Swap items with the successor
+        of the node (the smallest item in its right subtree) and
+        delete the successor from the right subtree of the node.
+        """
+        successor = self._find_smallest(node.right)
+        self._swap_nodes(node, successor)
+        if node.height == 0:
+            self._remove_leaf(node)
+        else:
+            self._remove_branch(node)
+
+    def _find_smallest(self, start_node):
+        """ Find the smallest item for _swap_and_remove """
+        node = start_node
+        while node.left:
+            node = node.left
+        return node
+
+    def _swap_nodes(self, node1, node2):
+        """ Swap nodes in _swap_and_remove """
+        parent1 = node1.parent
+        left_child1 = node1.left
+        right_child1 = node1.right
+        parent2 = node2.parent
+        left_child2 = node2.left
+        right_child2 = node2.right
+        node1.height, node2.height = node2.height, node1.height
+        if parent1:
+            if parent1.left == node1:
+                parent1.left = node2
+            else:
+                parent1.right = node2
+            node2.parent = parent1
+        else:
+            self._root = node2
+            node2.parent = None
+        node2.left = left_child1
+        left_child1.parent = node2
+        node1.left = left_child2
+        if left_child2:
+            left_child2.parent = node1
+        node1.right = right_child2
+        if right_child2:
+            right_child2.parent = node1
+        if not parent2 == node1:
+            node2.right = right_child1
+            right_child1.parent = node2
+            parent2.left = node1
+            node1.parent = parent2
+        else:
+            node2.right = node1
+            node1.parent = node2
+
+    def _remove_branch(self, node):
+        """ Remove branch for _swap_and_remove() and delete() """
+        parent = node.parent
+        if parent:
+            if parent.left == node:
+                parent.left = (node.right if node.right else node.left)
+            else:
+                parent.right = (node.right if node.right else node.left)
+            if node.left:
+                node.left.parent = parent
+            else:
+                node.right.parent = parent
+            self._recompute_heights(parent)
+        del node
+        node = parent
+        while node:
+            if not node.balance_factor() in [-1, 0, 1]:
+                self._rebalance(node)
+            node = node.parent
