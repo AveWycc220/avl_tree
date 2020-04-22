@@ -6,25 +6,25 @@ class AVLTree():
     """ Class of avl_tree. """
     def __init__(self):
         """ Initialization """
-        self._root = None
-        self._node_count = 0
+        self.__root = None
+        self.__node_count = 0
 
     @property
     def node_count(self):
         """ Getter for _node_count """
-        return self._node_count
+        return self.__node_count
 
     def _set_root(self, val):
         """ Set the root value """
-        self._root = Node(val)
+        self.__root = Node(val)
 
     def insert(self, val):
         """ Insert a val into AVLTree """
-        if self._root is None:
+        if self.__root is None:
             self._set_root(val)
         else:
-            self._insert_node(self._root, val)
-        self._node_count += 1
+            self._insert_node(self.__root, val)
+        self.__node_count += 1
 
     def _insert_node(self, current_node, val):
         """ Help 'def insert()' to insert a value into tree. """
@@ -96,8 +96,8 @@ class AVLTree():
         B.left = A
         A.parent = B
         if F is None:
-            self._root = B
-            self._root.parent = None
+            self.__root = B
+            self.__root.parent = None
         else:
             if F.right == A:
                 F.right = B
@@ -123,8 +123,8 @@ class AVLTree():
         C.left = A
         A.parent = C
         if F is None:
-            self._root = C
-            self._root.parent = None
+            self.__root = C
+            self.__root.parent = None
         else:
             if F.right == A:
                 F.right = C
@@ -144,8 +144,8 @@ class AVLTree():
         B.right = A
         A.parent = B
         if F is None:
-            self._root = B
-            self._root.parent = None
+            self.__root = B
+            self.__root.parent = None
         else:
             if F.right == A:
                 F.right = B
@@ -171,8 +171,8 @@ class AVLTree():
         C.right = A
         A.parent = C
         if F is None:
-            self._root = C
-            self._root.parent = None
+            self.__root = C
+            self.__root.parent = None
         else:
             if F.right == A:
                 F.right = C
@@ -182,12 +182,16 @@ class AVLTree():
         self._recompute_heights(A)
         self._recompute_heights(B)
 
+    def _search_for_delete(self, key):
+        """ Search key for delete in the tree. """
+        return self._search_node(self.__root, key, True)
+
     def search(self, key, return_node=False):
-        """ Search key into the tree. """
-        return self._search_node(self._root, key, True) if return_node else self._search_node(self._root, key)
+        """ Search key for delete in the tree. """
+        return str(self._search_node(self.__root, key, True)) if return_node else self._search_node(self.__root, key)
 
     def _search_node(self, current_node, key, return_node=False):
-        """ Help search() to find node """
+        """ Help 'search' to find node """
         if current_node is None:
             return None if return_node else False
         elif current_node.value == key:
@@ -197,11 +201,11 @@ class AVLTree():
         else:
             return self._search_node(current_node.right, key, True) if return_node else self._search_node(current_node.right, key)
 
-    def delete(self, key): 
+    def delete(self, key):
         """ Delete a node with a key """
-        node = self.search(key, True)
+        node = self._search_for_delete(key)
         if not node is None:
-            self._node_count -= 1
+            self.__node_count -= 1
             if node.height == 0:
                 self._remove_leaf(node)
             elif node.left and node.right:
@@ -209,7 +213,7 @@ class AVLTree():
             else:
                 self._remove_branch(node)
 
-    def _remove_leaf(self, node): 
+    def _remove_leaf(self, node):
         """ If the node is a leaf.  Remove it and return. """
         parent = node.parent
         if parent:
@@ -219,7 +223,7 @@ class AVLTree():
                 parent.right = None
             self._recompute_heights(parent)
         else:
-            self._root = None
+            self.__root = None
         del node
         node = parent
         while node:
@@ -263,7 +267,7 @@ class AVLTree():
                 parent1.right = node2
             node2.parent = parent1
         else:
-            self._root = node2
+            self.__root = node2
             node2.parent = None
         node2.left = left_child1
         left_child1.parent = node2
