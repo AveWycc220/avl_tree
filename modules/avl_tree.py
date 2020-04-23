@@ -302,3 +302,23 @@ class AVLTree():
             if not node.balance_factor() in [-1, 0, 1]:
                 self._rebalance(node)
             node = node.parent
+
+    def max(self, return_value=False):
+        """ Output max value of tree, 'return_value = True' if you want get value : int"""
+        try:
+            node = self.__root
+            while node.right:
+                node = node.right
+            return node.value if return_value else str(node.value)
+        except AttributeError:
+            return None if return_value else str("Tree is empty")
+
+    def min(self, return_value=False):
+        """ Output max value of tree, 'return_value = True' if you want get value : int"""
+        try:
+            node = self.__root
+            while node.left:
+                node = node.left
+            return node.value if return_value else str(node.value)
+        except AttributeError:
+            return None if return_value else str("Tree is empty")
