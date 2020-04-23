@@ -288,6 +288,14 @@ class AVLTree():
             else:
                 node.right.parent = parent
             parent.recompute_heights()
+        else:
+            if node.right:
+                self.__root = node.right
+                self.__root.parent = None
+            if node.left:
+                self.__root = node.left
+                self.__root.parent = None
+        self.__root.recompute_heights()
         del node
         node = parent
         while node:
