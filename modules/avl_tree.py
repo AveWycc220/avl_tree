@@ -37,7 +37,7 @@ class AVLTree():
                 current_node.left = new_node
                 new_node.parent = current_node
                 if current_node.height == 0:
-                    self._recompute_heights(current_node)
+                    current_node.recompute_heights()
                     node = current_node
                     while node:
                         if node.balance_factor() in [-2, 2]:
@@ -52,7 +52,7 @@ class AVLTree():
                 current_node.right = new_node
                 new_node.parent = current_node
                 if current_node.height == 0:
-                    self._recompute_heights(current_node)
+                    current_node.recompute_heights()
                     node = current_node
                     while node:
                         if node.balance_factor() in [-2, 2]:
@@ -61,17 +61,6 @@ class AVLTree():
                         node = node.parent
         if node_to_rebalance:
             self._rebalance(node_to_rebalance)
-
-    @staticmethod
-    def _recompute_heights(start_node):
-        """ Change height of elements after operation """
-        changed = True
-        node = start_node
-        while node and changed:
-            old_height = node.height
-            node.height = (node.max_children_height() + 1 if (node.right or node.left) else 0)
-            changed = node.height != old_height
-            node = node.parent
 
     def _rebalance(self, node_to_rebalance):
         """ Method for balance tree """
@@ -104,8 +93,8 @@ class AVLTree():
             else:
                 F.left = B
             B.parent = F
-        self._recompute_heights(A)
-        self._recompute_heights(B.parent)
+        A.recompute_heights()
+        B.recompute_heights()
 
     def _rlc(self, A):
         """ Right-left-case (double left rotation). """
@@ -131,8 +120,8 @@ class AVLTree():
             else:
                 F.left = C
             C.parent = F
-        self._recompute_heights(A)
-        self._recompute_heights(B)
+        A.recompute_heights()
+        B.recompute_heights()
 
     def _llc(self, A):
         """ Left-left-case (single right rotation). """
@@ -152,8 +141,8 @@ class AVLTree():
             else:
                 F.left = B
             B.parent = F
-        self._recompute_heights(A)
-        self._recompute_heights(B.parent)
+        A.recompute_heights()
+        B.recompute_heights()
 
     def _lrc(self, A):
         """ Left-right-case (double right rotation). """
@@ -179,8 +168,8 @@ class AVLTree():
             else:
                 F.left = C
             C.parent = F
-        self._recompute_heights(A)
-        self._recompute_heights(B)
+        A.recompute_heights()
+        B.recompute_heights()
 
     def _search_for_delete(self, key):
         """ Search key for delete in the tree. """
@@ -221,7 +210,7 @@ class AVLTree():
                 parent.left = None
             else:
                 parent.right = None
-            self._recompute_heights(parent)
+            parent.recompute_heights()
         else:
             self.__root = None
         del node
@@ -298,7 +287,7 @@ class AVLTree():
                 node.left.parent = parent
             else:
                 node.right.parent = parent
-            self._recompute_heights(parent)
+            parent.recompute_heights()
         del node
         node = parent
         while node:

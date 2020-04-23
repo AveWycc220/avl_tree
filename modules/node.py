@@ -26,6 +26,16 @@ class Node():
         """ Balance Factor - calculate the height difference between the right and left subtrees """
         return (self.left.height if self.left else -1) - (self.right.height if self.right else -1)
 
+    def recompute_heights(self):
+        """ Change height of elements after operation """
+        changed = True
+        node = self
+        while node and changed:
+            old_height = node.height
+            node.height = (node.max_children_height() + 1 if (node.right or node.left) else 0)
+            changed = node.height != old_height
+            node = node.parent
+
     def __str__(self):
         """ Output information """
         return F"Node(Value: {self.value}, Height: {self.height},\
