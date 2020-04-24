@@ -29,38 +29,42 @@ class AVLTree():
     def _insert_node(self, current_node, val):
         """ Help 'def insert()' to insert a value into tree. """
         node_to_rebalance = None
-        if current_node.value > val:
-            if current_node.left:
-                self._insert_node(current_node.left, val)
+        try:
+            if current_node.value > val:
+                if current_node.left:
+                    self._insert_node(current_node.left, val)
+                else:
+                    new_node = Node(val)
+                    current_node.left = new_node
+                    new_node.parent = current_node
+                    if current_node.height == 0:
+                        current_node.recompute_heights()
+                        node = current_node
+                        while node:
+                            if node.balance_factor() in [-2, 2]:
+                                node_to_rebalance = node
+                                break
+                            node = node.parent
             else:
-                new_node = Node(val)
-                current_node.left = new_node
-                new_node.parent = current_node
-                if current_node.height == 0:
-                    current_node.recompute_heights()
-                    node = current_node
-                    while node:
-                        if node.balance_factor() in [-2, 2]:
-                            node_to_rebalance = node
-                            break
-                        node = node.parent
-        else:
-            if current_node.right:
-                self._insert_node(current_node.right, val)
-            else:
-                new_node = Node(val)
-                current_node.right = new_node
-                new_node.parent = current_node
-                if current_node.height == 0:
-                    current_node.recompute_heights()
-                    node = current_node
-                    while node:
-                        if node.balance_factor() in [-2, 2]:
-                            node_to_rebalance = node
-                            break
-                        node = node.parent
-        if node_to_rebalance:
-            self._rebalance(node_to_rebalance)
+                if current_node.right:
+                    self._insert_node(current_node.right, val)
+                else:
+                    new_node = Node(val)
+                    current_node.right = new_node
+                    new_node.parent = current_node
+                    if current_node.height == 0:
+                        current_node.recompute_heights()
+                        node = current_node
+                        while node:
+                            if node.balance_factor() in [-2, 2]:
+                                node_to_rebalance = node
+                                break
+                            node = node.parent
+            if node_to_rebalance:
+                self._rebalance(node_to_rebalance)
+        except TypeError: 
+            self.__node_count -= 1
+            print("TypeError. Use the same type of input that you chose before.")
 
     def _rebalance(self, node_to_rebalance):
         """ Method for balance tree """
@@ -181,19 +185,22 @@ class AVLTree():
 
     def _search_node(self, current_node, key, return_node=False):
         """ Help 'search' to find node """
-        if current_node is None:
+        try:
+            if current_node is None:
+                return None if return_node else False
+            elif current_node.value == key:
+                return current_node if return_node else True
+            elif current_node.value > key:
+                return self._search_node(current_node.left, key, True) if return_node else self._search_node(current_node.left, key)
+            else:
+                return self._search_node(current_node.right, key, True) if return_node else self._search_node(current_node.right, key)
+        except TypeError:
             return None if return_node else False
-        elif current_node.value == key:
-            return current_node if return_node else True
-        elif current_node.value > key:
-            return self._search_node(current_node.left, key, True) if return_node else self._search_node(current_node.left, key)
-        else:
-            return self._search_node(current_node.right, key, True) if return_node else self._search_node(current_node.right, key)
 
     def delete(self, key):
         """ Delete a node with a key """
         node = self._search_for_delete(key)
-        if not node is None:
+        if node is not None:
             self.__node_count -= 1
             if node.height == 0:
                 self._remove_leaf(node)
@@ -201,6 +208,8 @@ class AVLTree():
                 self._swap_and_remove(node)
             else:
                 self._remove_branch(node)
+        else:
+            return False
 
     def _remove_leaf(self, node):
         """ If the node is a leaf.  Remove it and return. """
