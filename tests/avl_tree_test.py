@@ -4,6 +4,7 @@ import unittest
 sys.path.append('../')
 from modules.avl_tree import AVLTree
 
+
 class TestAVLTreeMethods(unittest.TestCase):
     """ Class for test methods of tree """
     # pylint: disable=W0212
@@ -227,3 +228,6 @@ class TestAVLTreeMethods(unittest.TestCase):
         tree.insert(1616)
         self.assertEqual(tree.min(True), 2)
         self.assertEqual(tree.min(), '2')
+    
+    def tearDown(self):
+        """ End """
