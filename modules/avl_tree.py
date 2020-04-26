@@ -23,49 +23,47 @@ class AVLTree():
         if self.__root is None:
             self._set_root(val)
         else:
-            self._insert_node(self.__root, val)
+            try: 
+                self._insert_node(self.__root, val)
+            except TypeError:
+                print("TypeError. Use the same type of input that you chose before.")
         self.__node_count += 1
 
     def _insert_node(self, current_node, val):
         """ Help 'def insert()' to insert a value into tree. """
         node_to_rebalance = None
-        try:
-            if current_node.value > val:
-                if current_node.left:
-                    self._insert_node(current_node.left, val)
-                else:
-                    new_node = Node(val)
-                    current_node.left = new_node
-                    new_node.parent = current_node
-                    if current_node.height == 0:
-                        current_node.recompute_heights()
-                        node = current_node
-                        while node:
-                            if node.balance_factor() in [-2, 2]:
-                                node_to_rebalance = node
-                                break
-                            node = node.parent
+        if current_node.value > val:
+            if current_node.left:
+                self._insert_node(current_node.left, val)
             else:
-                if current_node.right:
-                    self._insert_node(current_node.right, val)
-                else:
-                    new_node = Node(val)
-                    current_node.right = new_node
-                    new_node.parent = current_node
-                    if current_node.height == 0:
-                        current_node.recompute_heights()
-                        node = current_node
-                        while node:
-                            if node.balance_factor() in [-2, 2]:
-                                node_to_rebalance = node
-                                break
-                            node = node.parent
-            if node_to_rebalance:
-                self._rebalance(node_to_rebalance)
-        except TypeError: 
-            self.__node_count -= 1
-            print("TypeError. Use the same type of input that you chose before.")
-
+                new_node = Node(val)
+                current_node.left = new_node
+                new_node.parent = current_node
+                if current_node.height == 0:
+                    current_node.recompute_heights()
+                    node = current_node
+                    while node:
+                        if node.balance_factor() in [-2, 2]:
+                            break
+                        node = node.parent
+        else:
+            if current_node.right:
+                self._insert_node(current_node.right, val)
+            else:
+                new_node = Node(val)
+                current_node.right = new_node
+                new_node.parent = current_node
+                if current_node.height == 0:
+                    current_node.recompute_heights()
+                    node = current_node
+                    while node:
+                        if node.balance_factor() in [-2, 2]:
+                            node_to_rebalance = node
+                            break
+                        node = node.parent
+        if node_to_rebalance:
+            self._rebalance(node_to_rebalance)
+            
     def _rebalance(self, node_to_rebalance):
         """ Method for balance tree """
         if node_to_rebalance.balance_factor() == -2:
