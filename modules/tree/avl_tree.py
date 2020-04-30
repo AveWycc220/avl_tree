@@ -1,6 +1,5 @@
 """ Module for elements in tree """
-from modules.node import Node
-
+from modules.tree.node import Node
 
 class AVLTree():
     """ Class of avl_tree. """
@@ -22,12 +21,13 @@ class AVLTree():
         """ Insert a val into AVLTree """
         if self.__root is None:
             self._set_root(val)
+            self.__node_count += 1
         else:
-            try: 
+            try:
                 self._insert_node(self.__root, val)
+                self.__node_count += 1
             except TypeError:
                 print("TypeError. Use the same type of input that you chose before.")
-        self.__node_count += 1
 
     def _insert_node(self, current_node, val):
         """ Help 'def insert()' to insert a value into tree. """
@@ -44,6 +44,7 @@ class AVLTree():
                     node = current_node
                     while node:
                         if node.balance_factor() in [-2, 2]:
+                            node_to_rebalance = node
                             break
                         node = node.parent
         else:

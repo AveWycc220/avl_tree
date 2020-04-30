@@ -1,9 +1,6 @@
 """ Module for test class - AVLTree """
-import sys
 import unittest
-sys.path.append('../')
 from modules.tree.avl_tree import AVLTree
-
 
 class TestAVLTreeMethods(unittest.TestCase):
     """ Class for test methods of tree """
@@ -142,7 +139,7 @@ class TestAVLTreeMethods(unittest.TestCase):
         tree = AVLTree()
         tree.insert(10)
         tree.insert(7)
-        self.assertEqual(str(type(tree._search_for_delete(10))), "<class 'modules.node.Node'>")
+        self.assertEqual(str(type(tree._search_for_delete(10))), "<class 'modules.tree.node.Node'>")
         self.assertEqual(str(type(tree._search_for_delete(6))), "<class 'NoneType'>")
         tree_empty = AVLTree()
         self.assertEqual(str(type(tree_empty._search_for_delete(6))), "<class 'NoneType'>")

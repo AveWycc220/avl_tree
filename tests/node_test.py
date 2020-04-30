@@ -1,9 +1,6 @@
 """ Module for test class - Node """
-import sys
 import unittest
-sys.path.append('../')
 from modules.tree.node import Node
-
 
 class TestNode(unittest.TestCase):
     """ Class for test methods of Node """

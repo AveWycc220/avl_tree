@@ -1,9 +1,6 @@
 """ Module for API methods of class - AVLTree """
-import sys
 import unittest
-sys.path.append('../')
 from modules.tree.avl_tree import AVLTree
-
 
 class TestAVLTreeAPI(unittest.TestCase):
     """ Class for test API methods of tree """
