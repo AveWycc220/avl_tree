@@ -15,6 +15,9 @@ class Set():
         """ Initialization """
         self.__tree = AVLTree()
         self.__set_type = tree_type
+        if self.__set_type != 'int' and self.__set_type != 'float'\
+        and self.__set_type != 'bool' and self.__set_type != 'str':
+            raise SystemExit('TypeError : Wrong Type')
 
     def add(self, val):
         """ Add value in set """
@@ -48,7 +51,8 @@ class Set():
     def _conversion(self, val):
         """ Convert value in needed type """
         try:
-            return eval(self.__set_type)(val)
+            return eval(self.__set_type)(val) #Warning : Watch what might fall in eval()!!!
         except ValueError:
             print("ValueError: Wrong input")
             return None
+            
