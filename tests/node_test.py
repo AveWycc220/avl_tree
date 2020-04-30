@@ -2,7 +2,7 @@
 import sys
 import unittest
 sys.path.append('../')
-from modules.node import Node
+from modules.tree.node import Node
 
 
 class TestNode(unittest.TestCase):

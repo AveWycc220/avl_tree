@@ -2,7 +2,7 @@
 import sys
 import unittest
 sys.path.append('../')
-from modules.avl_tree import AVLTree
+from modules.tree.avl_tree import AVLTree
 
 
 class TestAVLTreeAPI(unittest.TestCase):
@@ -77,7 +77,6 @@ class TestAVLTreeAPI(unittest.TestCase):
         tree_second = AVLTree()
         tree_second.insert(15)
         self.assertEqual(tree_second.delete('15'), False)
-
 
     def tearDown(self):
         """ End """

@@ -2,7 +2,7 @@
 import sys
 import unittest
 sys.path.append('../')
-from modules.avl_tree import AVLTree
+from modules.tree.avl_tree import AVLTree
 
 
 class TestAVLTreeMethods(unittest.TestCase):
