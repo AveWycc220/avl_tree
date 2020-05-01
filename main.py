@@ -15,13 +15,13 @@ q -> Exit h -> Help")
         print("Example : {value, value} | Nesting allowed")
 
 while True:
-    while True:
-        print("Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean, list -> List, dict -> Dictionary, set -> Set, tuple -> Tuple")
-        set_type = input()
-        new_set = Set(set_type)
-        if new_set.is_empty() is not None:
-            break
-    about_operation()
+    print("Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean, list -> List, dict -> Dictionary, set -> Set, tuple -> Tuple")
+    set_type = input()
+    new_set = Set(set_type)
+    if new_set.is_empty() is not None:
+        break
+about_operation()
+while True:
     choose = input()
     if choose == '1':
         print("Enter value")
@@ -43,7 +43,7 @@ while True:
         print(new_set.is_empty())
     elif choose == 'q':
         break
-    elif choose == 'h':
+    elif choose == 'h' or choose == 'help':
         print("___HELP___\n")
         about_operation()
         print(F"Set : {new_set.__doc__}")
