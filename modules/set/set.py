@@ -23,9 +23,9 @@ class Set():
 
     def __init__(self, tree_type):
         """ Initialization """
-        self.__tree = AVLTree()
-        self.__set_type = tree_type
-        self._check_type()
+        if self._check_type(tree_type):
+            self.__tree = AVLTree()
+            self.__set_type = tree_type
 
     def add(self, val):
         """ Add value in set """
@@ -55,7 +55,7 @@ class Set():
         if isinstance(val, TYPES[self.__set_type]):
             return self.__tree.search(val)
         else:
-            print("TypeError : Wrong Input")
+            return str("TypeError : Wrong Input")
 
     def count(self):
         """ Get count of elements in set """
@@ -63,7 +63,7 @@ class Set():
 
     def is_empty(self):
         """ Return true is not empty, else False """
-        if self.__set_type == None:
+        if self.__set_type is None:
             return None
         else:
             return True if self.__tree.node_count == 0 else False
@@ -76,12 +76,12 @@ class Set():
             try:
                 return ast.literal_eval(val)
             except ValueError:
-                print("ValueError: Wrong input")
                 return None
 
-    def _check_type(self):
-        if self.__set_type not in TYPES.keys():
+    def _check_type(self, tree_type):
+        if tree_type in TYPES.keys():
+            return True
+        else:
             print('TypeError : Wrong Type')
-            self.__tree = None
-            self.__set_type = None
+            return False
           
