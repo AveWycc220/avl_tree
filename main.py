@@ -2,17 +2,19 @@
 from modules.set.set import Set
 
 def about_operation():
-    print("Allowed operation : 1 -> Add(value) 2-> Contains(value) 3-> Remove(value)\
+    print("Allowed operation : 1 -> Add(value) 2-> Contains(value) 3-> Remove(value) \
 4 -> Clear() 5 -> Count() 6 -> IsEmpty\n\
 q -> Exit h -> Help")
     if set_type == "list":
         print("Example : [value, value] | Nesting allowed")
     if set_type == "dict":
         print("Example : {key : value} | Nesting allowed")
-    if set_type == "set":
+    if set_type == "tuple":
         print("Example : (value, value) | Nesting allowed")
+    if set_type == "set":
+        print("Example : {value, value} | Nesting allowed")
 
-print("Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean, list -> List, dict -> Dictionary, set -> Set")
+print("Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean, list -> List, dict -> Dictionary, set -> Set, tuple -> Tuple")
 set_type = input()
 new_set = Set(set_type)
 about_operation()

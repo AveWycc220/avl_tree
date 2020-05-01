@@ -12,6 +12,7 @@ TYPES = {
     'list' : list,
     'dict' : dict,
     'set' : set,
+    'tuple' : tuple,
 }
 
 @implements(ISet)
@@ -28,7 +29,8 @@ class Set():
         self.__set_type = tree_type
         if self.__set_type != 'int' and self.__set_type != 'float'\
         and self.__set_type != 'bool' and self.__set_type != 'str'\
-        and self.__set_type != 'list' and self.__set_type != 'dict' and self.__set_type != 'set':
+        and self.__set_type != 'list' and self.__set_type != 'dict' and self.__set_type != 'set'\
+        and self.__set_type != 'tuple':
             raise SystemExit('TypeError : Wrong Type')
 
     def add(self, val):
