@@ -1,13 +1,21 @@
 """ Module for using set """
 from modules.set.set import Set
 
-print("Enter type of set\n\
-Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean")
-set_type = input()
-new_set = Set(set_type)
-print("Allowed operation : 1 -> Add(value) 2-> Contains(value) 3-> Remove(value)\n\
+def about_operation():
+    print("Allowed operation : 1 -> Add(value) 2-> Contains(value) 3-> Remove(value)\
 4 -> Clear() 5 -> Count() 6 -> IsEmpty\n\
 q -> Exit h -> Help")
+    if set_type == "list":
+        print("Example : [value, value] | Nesting allowed")
+    if set_type == "dict":
+        print("Example : {key : value} | Nesting allowed")
+    if set_type == "set":
+        print("Example : (value, value) | Nesting allowed")
+
+print("Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean, list -> List, dict -> Dictionary, set -> Set")
+set_type = input()
+new_set = Set(set_type)
+about_operation()
 while True:
     choose = input()
     if choose == '1':
@@ -31,9 +39,8 @@ while True:
     elif choose == 'q':
         break
     elif choose == 'h':
-        print("___HELP___\nAllowed operation : 1 -> Add(value) 2-> Contains(value) 3-> Remove(value)\n\
-4 -> Clear() 5 -> Count() 6 -> IsEmpty\n\
-q -> Exit h -> Help")
+        print("___HELP___\n")
+        about_operation()
         print(F"Set : {new_set.__doc__}")
         print(F"Add : {new_set.add.__doc__}")
         print(F"Contains : {new_set.contains.__doc__}")
