@@ -18,8 +18,6 @@ TYPES = {
 @implements(ISet)
 class Set():
     """ Class of set on avl tree """
-    # pylint: disable=W0123
-    # W0123 - Use of eval
     __tree = None
     __set_type = None
 
@@ -27,11 +25,7 @@ class Set():
         """ Initialization """
         self.__tree = AVLTree()
         self.__set_type = tree_type
-        if self.__set_type != 'int' and self.__set_type != 'float'\
-        and self.__set_type != 'bool' and self.__set_type != 'str'\
-        and self.__set_type != 'list' and self.__set_type != 'dict' and self.__set_type != 'set'\
-        and self.__set_type != 'tuple':
-            raise SystemExit('TypeError : Wrong Type')
+        self._check_type()
 
     def add(self, val):
         """ Add value in set """
@@ -69,7 +63,10 @@ class Set():
 
     def is_empty(self):
         """ Return true is not empty, else False """
-        return True if self.__tree.node_count == 0 else False
+        if self.__set_type == None:
+            return None
+        else:
+            return True if self.__tree.node_count == 0 else False
 
     def _conversion(self, val):
         """ Convert value in needed type """
@@ -81,4 +78,10 @@ class Set():
             except ValueError:
                 print("ValueError: Wrong input")
                 return None
-            
+
+    def _check_type(self):
+        if self.__set_type not in TYPES.keys():
+            print('TypeError : Wrong Type')
+            self.__tree = None
+            self.__set_type = None
+          

@@ -14,11 +14,14 @@ q -> Exit h -> Help")
     if set_type == "set":
         print("Example : {value, value} | Nesting allowed")
 
-print("Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean, list -> List, dict -> Dictionary, set -> Set, tuple -> Tuple")
-set_type = input()
-new_set = Set(set_type)
-about_operation()
 while True:
+    while True:
+        print("Allowed types: int -> Integer, str -> String, float -> Float, bool -> Boolean, list -> List, dict -> Dictionary, set -> Set, tuple -> Tuple")
+        set_type = input()
+        new_set = Set(set_type)
+        if new_set.is_empty() is not None:
+            break
+    about_operation()
     choose = input()
     if choose == '1':
         print("Enter value")
