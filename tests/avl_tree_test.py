@@ -57,6 +57,11 @@ class TestAVLTreeMethods(unittest.TestCase):
         self.assertEqual(tree_third.search("two"), True)
         self.assertEqual(tree_third.search("three"), True)
         self.assertEqual(tree_third._AVLTree__root.value, "two")
+        # Same value
+        same_tree = AVLTree()
+        same_tree.insert(5)
+        same_tree.insert(5)
+        self.assertEqual(same_tree.node_count, 1)
 
     def test_search(self):
         """ Test for search() """
