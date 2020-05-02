@@ -30,10 +30,13 @@ class Set():
     def add(self, val):
         """ Add value in set """
         val = self._conversion(val)
-        if isinstance(val, TYPES[self.__set_type]):
-            self.__tree.insert(val)
+        if self.__tree.search(val):
+            print("Element is already exist") 
         else:
-            print("TypeError : Wrong Input")
+            if isinstance(val, TYPES[self.__set_type]):
+                self.__tree.insert(val)
+            else:
+                print("TypeError : Wrong Input")
 
     def clear(self):
         """ Delete all elements in set """

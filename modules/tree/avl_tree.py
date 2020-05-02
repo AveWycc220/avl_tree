@@ -32,10 +32,7 @@ class AVLTree():
     def _insert_node(self, current_node, val):
         """ Help 'def insert()' to insert a value into tree. """
         node_to_rebalance = None
-        if current_node.value == val:
-            print("Element already exist")
-            self.__node_count -= 1
-        elif current_node.value > val:
+        if current_node.value > val:
             if current_node.left:
                 self._insert_node(current_node.left, val)
             else:
