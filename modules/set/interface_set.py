@@ -18,4 +18,4 @@ class ISet():
         """ Get count of elements in set """
 
     def is_empty(self):
-        """ Return true is not empty, else False """
+        """ Return true if not empty, else False """
